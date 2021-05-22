@@ -76,11 +76,11 @@ module Multipart
       #     UploadIO.new(file_io, "text/plain", "file.txt")
       def initialize(filename_or_io, content_type, filename = nil, opts = {})
         io = filename_or_io
-        local_path = ""
         if io.respond_to? :read
           # in Ruby 1.9.2, StringIOs no longer respond to path
           # (since they respond to :length, so we don't need their local path, see parts.rb:41)
           local_path = filename_or_io.respond_to?(:path) ? filename_or_io.path : "local.path"
+          filename = "file" unless filename
         else
           io = File.open(filename_or_io)
           local_path = filename_or_io
